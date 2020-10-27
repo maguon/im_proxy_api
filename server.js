@@ -49,17 +49,76 @@ const createServer=()=>{
     server.get('/docs/*', // don't forget the `/*`
         restify.plugins.serveStaticFiles('./public/docs')
     );
-    //admin
+
+    //------------------------------------admin------------------------------------
+
+    //Commands
+    server.get('/api/commands',Admin.getProxy);
+
+    //User management
     server.get('/api/users/:XMPPHost',Admin.getProxy);
     server.post({path:'/api/users/:XMPPHost',contentType: 'application/json'}, Admin.postProxy);
     server.put({path:'/api/users/:XMPPHost/:username',contentType: 'application/json'}, Admin.putProxy);
     server.del('/api/users/:XMPPHost/:username', Admin.deleteProxy);
-    //client
 
+    //Session management
+    server.get('/api/sessions/:XMPPHost',Admin.getProxy);
+    server.del('/api/sessions/:XMPPHost/:username/:resource', Admin.deleteProxy);
+
+    //One-to-one messages
+    // server.post({path:'/api/messages',contentType: 'application/json'}, Admin.postProxy);
+    // server.get('/api/messages/:owner',Admin.getProxy);
+    server.get('/api/messages/:owner/:with',Admin.getProxy);
+
+    //Contacts
+    server.get('/api/contacts/:user',Admin.getProxy);
+    server.post({path:'/api/contacts/:user',contentType: 'application/json'}, Admin.postProxy);
+    server.del('/api/contacts/:user/:contact', Admin.deleteProxy);
+    server.put({path:'/api/contacts/:user/:contact',contentType: 'application/json'}, Admin.putProxy);
+    server.put({path:'/api/contacts/:user/:contact/manage',contentType: 'application/json'}, Admin.putProxy);
+
+    //MUV-light management
+    server.post({path:'/api/muc-lights/:XMPPHost',contentType: 'application/json'}, Admin.postProxy);
+    server.put({path:'/api/muc-lights/:XMPPHost',contentType: 'application/json'}, Admin.putProxy);
+    server.post({path:'/api/muc-lights/:XMPPHost/:roomName/participants',contentType: 'application/json'}, Admin.postProxy);
+    server.post({path:'/api/muc-lights/:XMPPHost/:roomName/messages',contentType: 'application/json'}, Admin.postProxy);
+    server.del('/api/muc-lights/:XMPPHost/:roomName/:user/management', Admin.deleteProxy);
+
+    //MUC management
+    server.post({path:'/api/mucs/:XMPPHost',contentType: 'application/json'}, Admin.postProxy);
+    server.post({path:'/api/mucs/:XMPPHost/:roomName/participants',contentType: 'application/json'}, Admin.postProxy);
+    server.post({path:'/api/mucs/:XMPPHost/:roomName/messages',contentType: 'application/json'}, Admin.postProxy);
+    server.del('/api/mucs/:XMPPHost/:roomName/nickname', Admin.deleteProxy);
+
+
+    //------------------------------------client------------------------------------
+
+    //One-to-one messages
+    server.get('/api/messages',Client.getProxy);
+    server.post({path:'/api/messages',contentType: 'application/json'}, Client.postProxy);
+    server.get('/api/messages/:with',Client.getProxy);
+
+    //Rooms
     server.get('/api/rooms',Client.getProxy);
     server.post({path:'/api/rooms',contentType: 'application/json'}, Client.postProxy);
+    server.get('/api/rooms/:id',Client.getProxy);
     server.put({path:'/api/rooms/:id',contentType: 'application/json'}, Client.putProxy);
+    server.put({path:'/api/rooms/:id/config',contentType: 'application/json'}, Client.putProxy);
+    server.post({path:'/api/rooms/:id/users',contentType: 'application/json'}, Client.postProxy);
     server.del('/api/rooms/:id/users/:user', Client.deleteProxy);
+    server.get('/api/rooms/:id/messages',Client.getProxy);
+    server.post({path:'/api/rooms/:id/messages',contentType: 'application/json'}, Client.postProxy);
+
+    //Contacts
+    server.del('/api/contacts', Client.deleteProxy);
+    server.get('/api/contacts',Client.getProxy);
+    server.post({path:'/api/contacts',contentType: 'application/json'}, Client.postProxy);
+    server.del('/api/contacts/:contacts', Client.deleteProxy);
+    server.put({path:'/api/contacts/:contacts',contentType: 'application/json'}, Client.putProxy);
+
+    //Server Sent Events
+    server.get('/api/see',Client.getProxy);
+
 
     server.on('NotFound', function (req, res ,err,next) {
         const error = new Errors.NotFoundError()

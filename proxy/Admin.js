@@ -13,11 +13,14 @@ const getProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' getProxy ' + 'success');
     }).catch(function (error) {
         // handle error
-        res.status(error.response.status);
-        res.send(error.response.statusText);
-        logger.error(req.getPath(),query);
+        res.send(error);
+        logger.error(req.getPath(),error.stack);
+        // res.status(error.response.status);
+        // res.send(error.response.statusText);
+        // logger.error(req.getPath(),query);
     });
 }
 
@@ -33,6 +36,7 @@ const postProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' postProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(error.response.status);
@@ -53,6 +57,7 @@ const putProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' putProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(error.response.status);
@@ -60,6 +65,7 @@ const putProxy = (req,res,next)=>{
         logger.error(req.getPath(),query,body);
     });
 }
+
 const deleteProxy = (req,res,next)=>{
     const query= req.query;
     axios({
@@ -70,6 +76,7 @@ const deleteProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' deleteProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(error.response.status);
@@ -79,5 +86,5 @@ const deleteProxy = (req,res,next)=>{
 }
 
 module.exports = {
-    getProxy,postProxy,putProxy,deleteProxy
+    getProxy, postProxy, putProxy, deleteProxy
 }

@@ -14,6 +14,7 @@ const getProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' getProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(500);
@@ -35,6 +36,7 @@ const postProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' postProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(500);
@@ -56,6 +58,7 @@ const putProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' putProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(500);
@@ -73,6 +76,7 @@ const deleteProxy = (req,res,next)=>{
     }).then(function (response) {
         res.status(200);
         res.send({success:true,data:response.data});
+        logger.info(' deleteProxy ' + 'success');
     }).catch(function (error) {
         // handle error
         res.status(500);
