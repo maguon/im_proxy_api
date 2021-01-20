@@ -1,0 +1,243 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: "Ejabberd REST API for backend administration"
+  description: |
+      * **full JID** - is a **bare JID** with online user's resource to uniquely identify user's connection (f.e. **alice@wonderland.com/resource**).
+schemes:
+  - http
+basePath: /api
+consumes:
+  - application/json
+produces:
+  - application/json
+host: "localhost:5000"
+paths:
+  /server/register:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: userInfo
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "bb"
+                type: string
+              host:
+                example: "example.com"
+                type: string
+              password:
+                example: "SomEPass44"
+                type: string
+      description: Register a user
+      responses:
+        201:
+          description: Raw result string
+          schema:
+            title: successMessage
+            type: string
+  /server/registered_users:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              host:
+                example: "example.com"
+                type: string
+      description: List all registered users in HOST
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/create_room:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+              host:
+                example: "example.com"
+                type: sting
+      description: Create a MUC room name@service in host
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/create_room_with_opts:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            $ref: "#/definitions/CreateRoomWithOpts"
+            title: body
+
+      description: Create a MUC room name@service in host with given options
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/destroy_room:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+
+      description: Destroy a MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /client/get_user_rooms:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "tom"
+                type: string
+              host:
+                example: "example.com"
+                type: string
+              password:
+                example: "SomEPass44"
+                type: string
+      description: Get the list of rooms where this user is occupant
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+      deprecated: true
+
+parameters:
+  MUCServer:
+    name: XMPPMUCHost
+    in: path
+    description: The XMPP host of the muc service.
+    required: true
+    type: string
+    format: hostname
+  hostName:
+    name: XMPPHost
+    in: path
+    description: The XMPP host served by the server.
+    required: true
+    type: string
+    format: hostname
+  roomName:
+    name: roomName
+    in: path
+    description: The MUC Light room's **name** (i.e. **not** the room's JID)
+    required: true
+    type: string
+
+security:
+  - mongoose_basic_auth: []
+securityDefinitions:
+  mongoose_basic_auth:
+    type: basic
+    description: |
+      Log in using your userid (users's bare JID - F.e. alice@wonderland.com) and password.
+
+definitions:
+  CreateRoomWithOpts:
+    type: "object"
+    required:
+      - "name"
+      - "service"
+      - "host"
+      - "options"
+    properties:
+      name:
+        type: "string"
+        example: "room1"
+      service:
+        type: "string"
+        example: "muc.example.com"
+      host:
+        type: "string"
+        example: "localhost"
+      options:
+        type: "array"
+        xml:
+          name: "options"
+          wrapped: true
+        items:
+          $ref: "#/definitions/Options"
+    xml:
+      name: "CreateRoomWithOpts"
+  Options:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "members_only"
+      value:
+        type: "string"
+        example: "true"
+    xml:
+      name: "Options"
+

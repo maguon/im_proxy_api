@@ -4,6 +4,8 @@ const Errors = require('restify-errors');
 const corsMiddleware = require('restify-cors-middleware');
 const Admin = require('./proxy/Admin');
 const Client = require('./proxy/Client');
+const EjaAdmin = require('./proxy/EjaAdmin');
+const EjaClient = require('./proxy/EjaClient');
 
 const createServer=()=>{
 
@@ -11,7 +13,7 @@ const createServer=()=>{
 
     const server = restify.createServer({
 
-        name: 'SNS-API',
+        name: 'IM_PROXY_API',
         version: '0.0.1'
     });
 
@@ -118,6 +120,21 @@ const createServer=()=>{
 
     //Server Sent Events
     server.get('/api/see',Client.getProxy);
+
+
+    //-----------------------------------ejabberd_admin------------------------------------
+
+    //User management
+    server.post({path:'/api/server/register',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/registered_users',contentType: 'application/json'}, EjaAdmin.postProxy);
+
+    //Rooms management
+    server.post({path:'/api/server/create_room',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/create_room_with_opts',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/destroy_room',contentType: 'application/json'}, EjaAdmin.postProxy);
+
+    //没有访问权限 不好用
+    server.post({path:'/api/client/get_user_rooms',contentType: 'application/json'}, EjaClient.postProxy);
 
 
     server.on('NotFound', function (req, res ,err,next) {
