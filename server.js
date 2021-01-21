@@ -127,15 +127,29 @@ const createServer=()=>{
     //User management
     server.post({path:'/api/server/register',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/registered_users',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_last',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_presence',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_roster',contentType: 'application/json'}, EjaAdmin.postProxy);
 
     //Rooms management
     server.post({path:'/api/server/create_room',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/create_room_with_opts',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/destroy_room',contentType: 'application/json'}, EjaAdmin.postProxy);
-
+    server.post({path:'/api/server/get_room_affiliation',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_room_affiliations',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_room_occupants',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_room_occupants_number',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_room_options',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_subscribers',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/get_user_rooms',contentType: 'application/json'}, EjaAdmin.postProxy);
     //没有访问权限 不好用
     server.post({path:'/api/client/get_user_rooms',contentType: 'application/json'}, EjaClient.postProxy);
 
+
+    //Msg management
+    server.post({path:'/api/server/get_offline_count',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/kick_session',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/kick_user',contentType: 'application/json'}, EjaAdmin.postProxy);
 
     server.on('NotFound', function (req, res ,err,next) {
         const error = new Errors.NotFoundError()

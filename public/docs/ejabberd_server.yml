@@ -65,6 +65,90 @@ paths:
           schema:
             title: successMessage
             type: string
+  /server/get_last:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "user1"
+                type: string
+              host:
+                example: "myserver.com"
+                type: string
+      description: "Get last activity information.<br/><br/>
+        Timestamp is UTC and XEP-0082 format, for example: 2017-02-23T22:25:28.063062Z ONLINE"
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_presence:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "peter"
+                type: string
+              host:
+                example: "myexample.com"
+                type: string
+      description: "Retrieve the resource with highest priority, and its presence (show and status message) for a given user.<br/><br/>
+        The 'jid' value contains the user jid with resource. The 'show' value contains the user presence flag. <br/>
+        It can take limited values:
+        - available - chat (Free for chat) - away - dnd (Do not disturb) - xa (Not available, extended away) - unavailable (Not connected)<br/><br/>
+        'status' is a free text defined by the user client."
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_roster:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "aaaaa"
+                type: string
+              server:
+                example: "bbbbb"
+                type: string
+      description: Get roster of a local user
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+
   /server/create_room:
     post:
       tags:
@@ -141,6 +225,191 @@ paths:
           schema:
             title: successMessage
             type: string
+  /server/get_room_affiliation:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+              jid:
+                example: "user1@example.com"
+                type: string
+      description: Get affiliation of a user in MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_room_affiliations:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+      description: Get the list of affiliations of a MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_room_occupants:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+      description: Get the list of occupants of a MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_room_occupants_number:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+      description: Get the number of occupants of a MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_room_options:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+      description: Get options from a MUC room
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_subscribers:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "room1"
+                type: string
+              service:
+                example: "muc.example.com"
+                type: string
+      description: List subscribers of a MUC conference
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/get_user_rooms:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "tom"
+                type: string
+              host:
+                example: "example.com"
+                type: string
+      description: Get the list of rooms where this user is occupant
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
   /client/get_user_rooms:
     post:
       tags:
@@ -171,6 +440,92 @@ paths:
             title: successMessage
             type: string
       deprecated: true
+
+  /server/get_offline_count:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "aaaaa"
+                type: string
+              service:
+                example: "bbbbb"
+                type: string
+
+      description: Get the number of unread offline messages
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/kick_session:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "peter"
+                type: string
+              host:
+                example: "myserver.com"
+                type: string
+              resource:
+                example: "Psi"
+                type: string
+              reason:
+                example: "Stuck connection"
+                type: sting
+      description: Kick a user session
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
+  /server/kick_user:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "peter"
+                type: string
+              host:
+                example: "myserver.com"
+                type: string
+      description: Disconnect user's active sessions
+      responses:
+        201:
+          description: List of registered accounts usernames
+          schema:
+            title: successMessage
+            type: string
 
 parameters:
   MUCServer:
