@@ -142,6 +142,8 @@ const createServer=()=>{
     server.post({path:'/api/server/get_room_options',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/get_subscribers',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/get_user_rooms',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/muc_online_rooms',contentType: 'application/json'}, EjaAdmin.postProxy);
+
     //没有访问权限 不好用
     server.post({path:'/api/client/get_user_rooms',contentType: 'application/json'}, EjaClient.postProxy);
 

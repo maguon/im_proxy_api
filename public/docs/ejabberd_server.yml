@@ -37,11 +37,15 @@ paths:
                 type: string
       description: Register a user
       responses:
-        201:
+        200:
           description: Raw result string
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
   /server/registered_users:
     post:
       tags:
@@ -60,11 +64,21 @@ paths:
                 type: string
       description: List all registered users in HOST
       responses:
-        201:
+        200:
           description: List of registered accounts usernames
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                examplr: true
+              "data":
+                type: "string"
+                example: [
+                  "user1",
+                  "user2"
+                ]
   /server/get_last:
     post:
       tags:
@@ -87,11 +101,21 @@ paths:
       description: "Get last activity information.<br/><br/>
         Timestamp is UTC and XEP-0082 format, for example: 2017-02-23T22:25:28.063062Z ONLINE"
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Last activity timestamp and status
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {
+                  "timestamp": "2017-06-30T14:32:16.060684Z",
+                  "status": "ONLINE"
+                }
   /server/get_presence:
     post:
       tags:
@@ -117,11 +141,22 @@ paths:
         - available - chat (Free for chat) - away - dnd (Do not disturb) - xa (Not available, extended away) - unavailable (Not connected)<br/><br/>
         'status' is a free text defined by the user client."
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Successful operation
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {
+                  "jid": "user1@myserver.com/tka",
+                  "show": "dnd",
+                  "status": "Busy"
+                }
   /server/get_roster:
     post:
       tags:
@@ -143,11 +178,33 @@ paths:
                 type: string
       description: Get roster of a local user
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Successful operation
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "jid": "aaaaa",
+                    "nick": "bbbbb",
+                    "subscription": "ccccc",
+                    "ask": "ddddd",
+                    "group": "eeeee"
+                  },
+                  {
+                    "jid": "fffff",
+                    "nick": "ggggg",
+                    "subscription": "hhhhh",
+                    "ask": "iiiii",
+                    "group": "jjjjj"
+                  }
+                ]
 
   /server/create_room:
     post:
@@ -173,11 +230,15 @@ paths:
                 type: sting
       description: Create a MUC room name@service in host
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Status code (0 on success, 1 otherwise)
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
   /server/create_room_with_opts:
     post:
       tags:
@@ -193,11 +254,15 @@ paths:
 
       description: Create a MUC room name@service in host with given options
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Status code (0 on success, 1 otherwise)
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
   /server/destroy_room:
     post:
       tags:
@@ -220,11 +285,15 @@ paths:
 
       description: Destroy a MUC room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Status code (0 on success, 1 otherwise)
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
   /server/get_room_affiliation:
     post:
       tags:
@@ -249,11 +318,18 @@ paths:
                 type: string
       description: Get affiliation of a user in MUC room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Affiliation of the user
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"affiliation": "member"}
   /server/get_room_affiliations:
     post:
       tags:
@@ -275,11 +351,25 @@ paths:
                 type: string
       description: Get the list of affiliations of a MUC room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: The list of affiliations with username, domain, affiliation and reason
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "username": "user1",
+                    "domain": "example.com",
+                    "affiliation": "member",
+                    "reason": "member"
+                  }
+                ]
   /server/get_room_occupants:
     post:
       tags:
@@ -299,13 +389,26 @@ paths:
               service:
                 example: "muc.example.com"
                 type: string
-      description: Get the list of occupants of a MUC room
+      description: get_room_occupants
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: The list of occupants with JID, nick and affiliation
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "jid": "user1@example.com/psi",
+                    "nick": "User 1",
+                    "role": "owner"
+                  }
+                ]
   /server/get_room_occupants_number:
     post:
       tags:
@@ -327,11 +430,18 @@ paths:
                 type: string
       description: Get the number of occupants of a MUC room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Number of room occupants
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"occupants": 7}
   /server/get_room_options:
     post:
       tags:
@@ -353,11 +463,23 @@ paths:
                 type: string
       description: Get options from a MUC room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: List of room options tuples with name and value
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "name": "members_only",
+                    "value": "true"
+                  }
+                ]
   /server/get_subscribers:
     post:
       tags:
@@ -377,13 +499,23 @@ paths:
               service:
                 example: "muc.example.com"
                 type: string
-      description: List subscribers of a MUC conference
+      description: The list of users that are subscribed to that room
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Successful operation
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "user2@example.com",
+                  "user3@example.com"
+                ]
   /server/get_user_rooms:
     post:
       tags:
@@ -405,11 +537,55 @@ paths:
                 type: string
       description: Get the list of rooms where this user is occupant
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Successful operation
           schema:
             title: successMessage
-            type: string
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+  /server/muc_online_rooms:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                example: "muc.example.com"
+                type: string
+      description: List existing rooms ('global' to get all vhosts)
+      responses:
+        200:
+          description: List of rooms
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+
   /client/get_user_rooms:
     post:
       tags:
@@ -434,12 +610,21 @@ paths:
                 type: string
       description: Get the list of rooms where this user is occupant
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Successful operation
           schema:
             title: successMessage
-            type: string
-      deprecated: true
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
 
   /server/get_offline_count:
     post:
@@ -463,11 +648,18 @@ paths:
 
       description: Get the number of unread offline messages
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Number
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"value": 5}
   /server/kick_session:
     post:
       tags:
@@ -495,11 +687,15 @@ paths:
                 type: sting
       description: Kick a user session
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Status code (0 on success, 1 otherwise)
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
   /server/kick_user:
     post:
       tags:
@@ -521,11 +717,15 @@ paths:
                 type: string
       description: Disconnect user's active sessions
       responses:
-        201:
-          description: List of registered accounts usernames
+        200:
+          description: Number of resources that were kicked
           schema:
             title: successMessage
-            type: string
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
 
 parameters:
   MUCServer:
