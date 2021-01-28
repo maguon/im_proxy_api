@@ -130,6 +130,20 @@ const createServer=()=>{
     server.post({path:'/api/server/get_last',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/get_presence',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/get_roster',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/num_resources',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/oauth_issue_token',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/oauth_list_tokens',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/oauth_remove_client',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/oauth_revoke_token',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/private_get',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/private_set',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/push_alltoall',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/push_roster',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/push_roster_all',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/registered_vhosts',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/set_last',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/set_nickname',contentType: 'application/json'}, EjaAdmin.postProxy);
+
 
     //Rooms management
     server.post({path:'/api/server/create_room',contentType: 'application/json'}, EjaAdmin.postProxy);
@@ -143,6 +157,15 @@ const createServer=()=>{
     server.post({path:'/api/server/get_subscribers',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/get_user_rooms',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/muc_online_rooms',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/muc_online_rooms_by_regex',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/muc_register_nick',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/muc_unregister_nick',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/rooms_empty_destroy',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/rooms_empty_list',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/rooms_unused_destroy',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/rooms_unused_list',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/send_direct_invitation',contentType: 'application/json'}, EjaAdmin.postProxy);
+
 
     //没有访问权限 不好用
     server.post({path:'/api/client/get_user_rooms',contentType: 'application/json'}, EjaClient.postProxy);
@@ -152,6 +175,12 @@ const createServer=()=>{
     server.post({path:'/api/server/get_offline_count',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/kick_session',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/kick_user',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/send_message',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/send_stanza',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/send_stanza_c2s',contentType: 'application/json'}, EjaAdmin.postProxy);
+
+
+
 
     server.on('NotFound', function (req, res ,err,next) {
         const error = new Errors.NotFoundError()

@@ -205,6 +205,460 @@ paths:
                     "group": "jjjjj"
                   }
                 ]
+  /server/num_resources:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                type: string
+                example: "peter"
+              host:
+                type: string
+                example: "myserver.com"
+      description: Get the number of resources of a user
+      responses:
+        200:
+          description: Number of active resources for a user
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"resources": 5}
+  /server/oauth_issue_token:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              jid:
+                type: string
+                example: "user@server.com"
+              ttl:
+                type: string
+                example: "3600"
+              scopes:
+                type: string
+                example: "connected_users_number;muc_online_rooms"
+      description: Issue an OAuth token for the given JID
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {
+                  "token": "aaaaa",
+                  "scopes": "bbbbb",
+                  "expires_in": "ccccc"
+                }
+  /server/oauth_list_tokens:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+      description: "List OAuth tokens, user, scope, and seconds to expire (only Mnesia)<br/><br/>
+                    List OAuth tokens, their user and scope, and how many seconds remain until expirity"
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "token": "aaaaa",
+                    "user": "bbbbb",
+                    "scope": "ccccc",
+                    "expires_in": "ddddd"
+                  },
+                  {
+                    "token": "eeeee",
+                    "user": "fffff",
+                    "scope": "ggggg",
+                    "expires_in": "hhhhh"
+                  }
+                ]
+  /server/oauth_remove_client:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              client_id:
+                type: string
+                example: "aaaaa"
+      description: Remove OAuth client_id
+      responses:
+        200:
+          description: Raw result string
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/oauth_revoke_token:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              token:
+                type: string
+                example: "aaaaa"
+      description: Revoke authorization for a token (only Mnesia)
+      responses:
+        200:
+          description: List of remaining tokens
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "token": "aaaaa",
+                    "user": "bbbbb",
+                    "scope": "ccccc",
+                    "expires_in": "ddddd"
+                  },
+                  {
+                    "token": "eeeee",
+                    "user": "fffff",
+                    "scope": "ggggg",
+                    "expires_in": "hhhhh"
+                  }
+                ]
+  /server/private_get:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                type: string
+                example: "user1"
+              host:
+                type: string
+                example: "myserver.com"
+              element:
+                type: string
+                example: "storage"
+              ns:
+                type: string
+                example: "storage:rosternotes"
+      description: Get some information from a user private storage
+      responses:
+        200:
+          description: List of remaining tokens
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: { "res": "aaaaa" }
+  /server/private_set:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                type: string
+                example: "user1"
+              host:
+                type: string
+                example: "myserver.com"
+              element:
+                type: string
+                example: "storage"
+      description: Set to the user private storage
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/push_alltoall:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              host:
+                type: string
+                example: "myserver.com"
+              group:
+                type: string
+                example: "Everybody"
+      description: Add all the users to all the users of Host in Group
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/push_roster:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              file:
+                type: string
+                example: "/home/ejabberd/roster.txt"
+              user:
+                type: string
+                example: "user1"
+              host:
+                type: string
+                example: "localhost"
+      description: 'Push template roster from file to a user<br/><br/>
+           The text file must contain an erlang term: a list of tuples
+           with username, servername, group and nick.<br/>
+           Example: [{<<"user1">>, <<"localhost">>, <<"Workers">>, <<"User 1">>},{<<"user2">>, <<"localhost">>, <<"Workers">>, <<"User 2">>}].
+           When using UTF8 character encoding add /utf8 to certain string. <br/>
+           Example: [{<<"user2">>, <<"localhost">>, <<"Workers"/utf8>>, <<"User 2"/utf8>>}].'
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/push_roster_all:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              file:
+                type: string
+                example: "/home/ejabberd/roster.txt"
+      description: 'Push template roster from file to all those users<br/><br/>
+                    The text file must contain an erlang term: a list of tuples with
+                    username, servername, group and nick.<br/>
+                    Example: [{"user1", "localhost", "Workers", "User 1"},{"user2", "localhost", "Workers", "User 2"}].'
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/registered_vhosts:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+      description: List all registered vhosts in SERVER
+      responses:
+        200:
+          description: List of available vhosts
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                 type: "string"
+                 example: [
+                   "example.com",
+                   "anon.example.com"
+                 ]
+  /server/set_last:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "user1"
+                type: string
+              host:
+                examplt: "mysercer.com"
+                type: string
+              timestamp:
+                example: "1500045311"
+                type: string
+              status:
+                examplt: "GoSleeping"
+                type: string
+      description: "Set last activity information<br/><br/>
+                    Timestamp is the seconds since 1970-01-01 00:00:00 UTC, for example: date +%s"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/set_nickname:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "user1"
+                type: string
+              host:
+                examplt: "mysercer.com"
+                type: string
+              nickname:
+                example: "User 1"
+                type: string
+      description: "Set nickname in a user's vCard"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+
 
   /server/create_room:
     post:
@@ -585,6 +1039,300 @@ paths:
                   "room1@muc.example.com",
                   "room2@muc.example.com"
                 ]
+  /server/muc_online_rooms_by_regex:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                example: "muc.example.com"
+                type: string
+              regex:
+                example: "^prefix"
+                type: string
+      description: List existing rooms ('global' to get all vhosts) by regex
+      responses:
+        200:
+          description: List of rooms with summary
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "jid": "room1@muc.example.com",
+                    "public": "true",
+                    "participants": 10
+                  },
+                  {
+                    "jid": "room2@muc.example.com",
+                    "public": "false",
+                    "participants": 10
+                  }
+                ]
+  /server/muc_register_nick:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              nick:
+                type: string
+                example: "Tim"
+              jid:
+                type: string
+                example: "tim@example.org"
+              service:
+                type: string
+                example: "muc.example.com"
+      description: Register a nick to a User JID in a MUC service
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/muc_unregister_nick:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              jid:
+                type: string
+                example: "tim@example.org"
+              service:
+                type: string
+                example: "muc.example.com"
+      description: Unregister the nick registered by that account in the MUC service
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/rooms_empty_destroy:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                type: string
+                example: "muc.example.com"
+      description: "Destroy the rooms that have no messages in archive<br/>
+        The MUC service argument can be 'global' to get all hosts."
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+  /server/rooms_empty_list:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                type: string
+                example: "muc.example.com"
+      description: "List the rooms that have no messages in archive<br/><br/>
+                    The MUC service argument can be 'global' to get all hosts."
+      responses:
+        200:
+          description: List of empty rooms
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+  /server/rooms_unused_destroy:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                type: string
+                example: "muc.example.com"
+              days:
+                type: string
+                example: 31
+      description: "Destroy the rooms that are unused for many days in the service<br/><br/>
+                    The room recent history is used, so it's recommended to wait
+                    a few days after service start before running this.<br/>
+                    The MUC service argument can be 'global' to get all hosts."
+      responses:
+        200:
+          description: List of unused rooms that has been destroyed
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+  /server/rooms_unused_list:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              service:
+                type: string
+                example: "muc.example.com"
+              days:
+                type: string
+                example: 31
+      description: "List the rooms that are unused for many days in the service<br/><br/>
+                    The room recent history is used, so it's recommended to wait
+                    a few days after service start before running this. <br/>
+                    The MUC service argument can be 'global' to get all hosts."
+      responses:
+        200:
+          description: List of unused rooms
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "room1@muc.example.com",
+                  "room2@muc.example.com"
+                ]
+  /server/send_direct_invitation:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                type: string
+                example: "room1"
+              service:
+                type: string
+                example: "muc.example.com"
+              password:
+                type: string
+                example: ""
+              reason:
+                type: string
+                example: "Check this out!"
+              users:
+                type: string
+                example: "user2@localhost:user3@example.com"
+      description: "Send a direct invitation to several destinations<br/><br/>
+                    Since ejabberd 20.10, this command is asynchronous:
+                    the API call may return before the server has send all the invitations."
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
 
   /client/get_user_rooms:
     post:
@@ -625,6 +1373,8 @@ paths:
                   "room1@muc.example.com",
                   "room2@muc.example.com"
                 ]
+      deprecated: true
+
 
   /server/get_offline_count:
     post:
@@ -719,6 +1469,118 @@ paths:
       responses:
         200:
           description: Number of resources that were kicked
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/send_message:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              type:
+                example: "headline"
+                type: string
+              from:
+                example: "admin@localhost"
+                type: string
+              to:
+                example: "user1@localhost"
+                type: string
+              subject:
+                example: "Restart"
+                type:  string
+              body:
+                example: "In 5 minutes"
+                type: string
+      description: "Send a message to a local or remote bare of full JID<br/><br/>
+                    When sending a groupchat message to a MUC room,
+                    FROM must be the full JID of a room occupant,
+                    or the bare JID of a MUC service admin, or the bare JID of a MUC/Sub
+                    subscribed user."
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/send_stanza:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              from:
+                example: "admin@localhost"
+                type: string
+              to:
+                example: "user1@localhost"
+                type: string
+              stanza:
+                example: "<message><ext attr='value'/></message>"
+                type:  string
+      description: "Send a stanza; provide From JID and valid To JID"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/send_stanza_c2s:
+    post:
+      tags:
+        - "Msg management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "admin"
+                type: string
+              host:
+                example: "myserver.com"
+                type: string
+              resource:
+                example: "bot"
+                type: string
+              stanza:
+                example: "<message to='user1@localhost'><ext attr='value'/></message>"
+                type:  string
+      description: "Send a stanza as if sent from a c2s session"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
           schema:
             title: successMessage
             type: object
