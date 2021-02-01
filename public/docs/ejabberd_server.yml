@@ -658,6 +658,118 @@ paths:
               "success":
                 type: "string"
                 example: true
+  /server/unregister:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "bob"
+                type: string
+              host:
+                examplt: "example.com"
+                type: string
+      description: "Unregister a user"
+      responses:
+        200:
+          description: Raw result string
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/user_resources:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "user1"
+                type: string
+              host:
+                examplt: "example.com"
+                type: string
+      description: "List user's connected resources"
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "tka1",
+                  "Gajim",
+                  "mobile-app"
+                ]
+  /server/user_sessions_info:
+    post:
+      tags:
+        - "User management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                example: "peter"
+                type: string
+              host:
+                examplt: "example.com"
+                type: string
+      description: "Get information about all sessions of a user"
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "connection": "c2s",
+                    "ip": "127.0.0.1",
+                    "port": 42656,
+                    "priority": 8,
+                    "node": "ejabberd@localhost",
+                    "uptime": 231,
+                    "status": "dnd",
+                    "resource": "tka",
+                    "statustext": ""
+                  }
+                ]
 
 
   /server/create_room:
@@ -1333,6 +1445,114 @@ paths:
               "success":
                 type: "string"
                 example: true
+  /server/set_room_affiliation:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                type: string
+                example: "room1"
+              service:
+                type: string
+                example: "muc.example.com"
+              jid:
+                type: string
+                example: "user2@example.com"
+              affiliation:
+                type: string
+                example: "member"
+      description: "Change an affiliation in a MUC room"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+  /server/subscribe_room:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                type: string
+                example: "tom@localhost"
+              nick:
+                type: string
+                example: "Tom"
+              room:
+                type: string
+                example: "room1@conference.localhost"
+              nodes:
+                type: string
+                example: "urn:xmpp:mucsub:nodes:messages,urn:xmpp:mucsub:nodes:affiliations"
+      description: "Subscribe to a MUC conference"
+      responses:
+        200:
+          description: The list of nodes that has subscribed
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  "urn:xmpp:mucsub:nodes:messages",
+                  "urn:xmpp:mucsub:nodes:affiliations"
+                ]
+  /server/unsubscribe_room:
+    post:
+      tags:
+        - "Room management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              user:
+                type: string
+                example: "tom@localhost"
+              room:
+                type: string
+                example: "room1@conference.localhost"
+      description: "Unsubscribe from a MUC conference"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: "object"
+            properties:
+              "success":
+                type: "string"
+                example: true
 
   /client/get_user_rooms:
     post:
@@ -1588,6 +1808,246 @@ paths:
               "success":
                 type: "string"
                 example: true
+
+  /server/stats:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "registeredusers"
+                type: string
+      description: "Get statistical value: registeredusers onlineusers onlineusersnode uptimeseconds processes"
+      responses:
+        200:
+          description: Status code (0 on success, 1 otherwise)
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"stat":6}
+  /server/stats_host:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              name:
+                example: "registeredusers"
+                type: string
+              host:
+                example: "example.com"
+      description: "Get statistical value for this host: registeredusers onlineusers"
+      responses:
+        200:
+          description: Integer statistic value
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"stat":6}
+  /server/status:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+      description: "Get status of the ejabberd server"
+      responses:
+        200:
+          description: Raw result string
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: "The node ejabberd@localhost is started with status:
+                startedejabberd X.X is running  in that node"
+  /server/status_list:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              status:
+                example: "dnd"
+                type: string
+      description: "List of logged users with this status"
+      responses:
+        200:
+          description:  Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "user": "peter",
+                    "host": "myserver.com",
+                    "resource": "tka",
+                    "priority": 6,
+                    "status": "Busy"
+                  }
+                ]
+  /server/status_list_host:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              host:
+                example: "myserver.com"
+                type: string
+              status:
+                example: "dnd"
+                type: string
+      description: "List of users logged in host with their statuses"
+      responses:
+        200:
+          description:  Successful operation
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                  {
+                    "user": "peter",
+                    "host": "myserver.com",
+                    "resource": "tka",
+                    "priority": 6,
+                    "status": "Busy"
+                  }
+                ]
+  /server/status_num:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              status:
+                example: "dnd"
+                type: string
+      description: "Number of logged users with this status"
+      responses:
+        200:
+          description:  Number of connected sessions with given status type
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: [
+                {
+                  "user": "peter",
+                  "host": "myserver.com",
+                  "resource": "tka",
+                  "priority": 6,
+                  "status": "Busy"
+                }
+                ]
+  /server/status_num_host:
+    post:
+      tags:
+        - "Statistics management"
+      parameters:
+        - name: body
+          in: body
+          description: Local vhost
+          required: true
+          schema:
+            title: body
+            type: object
+            properties:
+              host:
+                example: "myserver.com"
+                type: string
+              status:
+                example: "dnd"
+                type: string
+      description: "Number of logged users with this status in host"
+      responses:
+        200:
+          description: Number of connected sessions with given status type
+          schema:
+            title: successMessage
+            type: object
+            properties:
+              "success":
+                type: "string"
+                example: true
+              "data":
+                type: "string"
+                example: {"users": 23}
 
 parameters:
   MUCServer:

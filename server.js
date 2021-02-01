@@ -143,6 +143,9 @@ const createServer=()=>{
     server.post({path:'/api/server/registered_vhosts',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/set_last',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/set_nickname',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/unregister',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/user_resources',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/user_sessions_info',contentType: 'application/json'}, EjaAdmin.postProxy);
 
 
     //Rooms management
@@ -165,11 +168,13 @@ const createServer=()=>{
     server.post({path:'/api/server/rooms_unused_destroy',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/rooms_unused_list',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/send_direct_invitation',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/set_room_affiliation',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/subscribe_room',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/unsubscribe_room',contentType: 'application/json'}, EjaAdmin.postProxy);
 
 
     //没有访问权限 不好用
     server.post({path:'/api/client/get_user_rooms',contentType: 'application/json'}, EjaClient.postProxy);
-
 
     //Msg management
     server.post({path:'/api/server/get_offline_count',contentType: 'application/json'}, EjaAdmin.postProxy);
@@ -179,6 +184,14 @@ const createServer=()=>{
     server.post({path:'/api/server/send_stanza',contentType: 'application/json'}, EjaAdmin.postProxy);
     server.post({path:'/api/server/send_stanza_c2s',contentType: 'application/json'}, EjaAdmin.postProxy);
 
+    //Statistics management
+    server.post({path:'/api/server/stats',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/stats_host',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/status',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/status_list',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/status_list_host',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/status_num',contentType: 'application/json'}, EjaAdmin.postProxy);
+    server.post({path:'/api/server/status_num_host',contentType: 'application/json'}, EjaAdmin.postProxy);
 
 
 
